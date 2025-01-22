@@ -1,0 +1,37 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LDI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+  </head>
+  <body class="d-flex flex-column min-vh-100">
+    <!-- Navigation-->
+    {% include "navbar.html" %}
+    {% if messages %}
+        {% for message in messages %}
+        
+        {% endfor %}
+    {% endif %}
+
+    {% block content  %}
+    {% endblock %}
+    
+    <div class="container-fluid">
+       {% block body %}
+       {% endblock %}
+    </div>
+    <footer class="mt-auto mb-4">
+      <div class="text-center">
+        <span>
+          Copyright &copy; <script>document.write(new Date().getFullYear())</script> Kyambogo University.
+        </span>
+      </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+
+{% block body %}
+    <div class="container-fluid">
+        <h3 class="m-4">The Library Articles</h3>
+        <form method="GET" action="{% url 'library_view' %}" class="m-4">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" name="q" placeholder="Search by title, author, date, or shelve" value="{{ query|default:'' }}">
+                <button class="btn btn-primary" type="submit"><i class="fa-solid fa-search"></i> Search</button>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-12">
+                {% if library %}
+                    <div class="card bg-light ms-4 mc-4 mb-4">
+                        <div class="card-header">
+                            <i class="fa-solid fa-list fa-lg"></i> Articles
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Title</th>
+                                                <th scope="col">Author</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Location</th>
+                                                <th scope="col">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for student in library %}
+                                                <tr>
+                                                    <td>{{ student.title }}</td>
+                                                    <td>{{ student.author }}</td>
+                                                    <td>{{ student.date }}</td>
+                                                    <td>{{ student.location }}</td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-success mc-1" href="{% url 'view_student' student.id %}" data-bs-toggle="modal" data-bs-target="#myModal{{ student.id }}">
+                                                            <i class="fa-solid fa-circle-info"></i>
+                                                        </button>
+                                                        <!-- Modal view_student -->
+                                                        <div class="modal" id="myModal{{ student.id }}" tabindex="-1" aria-labelledby="myModal1" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">
+                                                                            Article: {{ student.author }} {{ student.title }} 
+                                                                        </h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true"></span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <ul class="list-unstyled">
+                                                                            <li>Title: <strong>{{ student.title }}</strong></li>
+                                                                            <li>Author: <strong>{{ student.author }}</strong></li>
+                                                                            <li>Date: <strong>{{ student.date }}</strong></li>
+                                                                            <li>Location: <strong>{{ student.location }}</strong></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <a class="btn btn-warning mc-1" href="{% url 'edit' student.id %}">
+                                                            <i class="fa-solid fa-pen-to-square"></i>
+                                                        </a>
+                                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete{{student.id}}">
+                                                            <i class="fa-solid fa-trash-can fa-lg"></i>
+                                                        </button>
+                                                        <!-- Modal delete -->
+                                                        <div class="modal" id="delete{{ student.id }}" tabindex="-1" aria-labelledby="myModal2" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">
+                                                                            Article: {{ student.author }}
+                                                                        </h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true"></span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <p>Are you sure you want to delete this article?</p>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <form action="{% url 'delete' student.id %}" method="POST">
+                                                                            {% csrf_token %}
+                                                                            <input type="submit" class="btn btn-primary" value="Delete">
+                                                                        </form>
+                                                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+                {% else %}
+                    <h5 class="alert alert-primary ms-4 mc-4">No Records</h5>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

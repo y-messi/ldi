@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block body %}
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="text-center">
+    <h1 class="display-4" style="color: blue">Welcome to the Library Digital Index.</h1>
+    {% comment %} <br/><br/> {% endcomment %}
+    <img src="{% static 'images/annitah-removebg-preview.png' %}" alt="image" height="380px"/>
+    {% comment %} <br/><br/><br/> {% endcomment %}
+    <div class="mt-4">
+      <a href="{% url 'library_view' %}?publication=Daily%20Monitor" class="btn btn-primary btn-lg mx-2">Daily Monitor</a>
+      <a href="{% url 'library_view' %}?publication=New%20Vision" class="btn btn-secondary btn-lg mx-2">New Vision</a>
+    </div>
+    <br/> <br/> <br/>
+  </div>
+</div>
+{% endblock %}
